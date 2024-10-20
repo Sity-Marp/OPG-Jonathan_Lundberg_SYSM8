@@ -18,8 +18,6 @@ namespace FitTrack
     {
         public MainWindow()
         {
-            //test
-            int a = 5;
             InitializeComponent();
         }
     }
