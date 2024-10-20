@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jonat\\Documents\\GitHub\\FitTrack\\OPG_Jonathan_Lundberg_SYSM8\\FitTrack\\FitTrack.csproj",
+      "projectUniqueName": "C:\\Users\\jonat\\source\\repos\\Slutuppgift\\FitTrack\\FitTrack.csproj",
       "projectName": "FitTrack",
-      "projectPath": "C:\\Users\\jonat\\Documents\\GitHub\\FitTrack\\OPG_Jonathan_Lundberg_SYSM8\\FitTrack\\FitTrack.csproj",
+      "projectPath": "C:\\Users\\jonat\\source\\repos\\Slutuppgift\\FitTrack\\FitTrack.csproj",
       "packagesPath": "C:\\Users\\jonat\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jonat\\Documents\\GitHub\\FitTrack\\OPG_Jonathan_Lundberg_SYSM8\\FitTrack\\obj\\",
+      "outputPath": "C:\\Users\\jonat\\source\\repos\\Slutuppgift\\FitTrack\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\jonat\\AppData\\Roaming\\NuGet\\NuGet.Config",
