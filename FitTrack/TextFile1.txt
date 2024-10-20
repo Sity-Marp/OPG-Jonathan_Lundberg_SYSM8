@@ -1,0 +1,16 @@
+﻿- generate 6 random symbols for 2FA and how to check for login
+- password recovery + security question
+- password requirements (minst 8 tecken, minst en siffra och ett specialtecken)
+- two passwords inputs for account creation (check thing ive done)
+- filter functions for lists
+- function to copy a workout to use as template.
+- 
+
+
+
+https://www.codeproject.com/Articles/182759/WPF-Country-Combobox
+https://stackoverflow.com/questions/26311821/get-all-countries-in-combobox
+
+
+
+220, 20, 60 RGB
