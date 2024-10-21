@@ -13,6 +13,8 @@ namespace FitTrack.ViewModel
 {
     internal class MainWindowViewModel : ViewModelBase
     {
+        private readonly Window _mainWindow;
+
         private string _username;
         private string _password;
 
@@ -50,7 +52,8 @@ namespace FitTrack.ViewModel
                 DataContext = new RegisterWindowViewModel()
             };
             registerwindow.Show();
-            
+
+            Application.Current.MainWindow.Close();
         }
 
     }
