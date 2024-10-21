@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using FitTrack.ViewModel;
+using FitTrack.View;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -20,5 +22,6 @@ namespace FitTrack
         {
             InitializeComponent();
         }
+
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using FitTrack.MVVM;
 using FitTrack.View;
 
@@ -34,6 +35,7 @@ namespace FitTrack.ViewModel
                 OnPropertyChanged(nameof(Password));
             }
         }
+
 
         private void Register()
         {
