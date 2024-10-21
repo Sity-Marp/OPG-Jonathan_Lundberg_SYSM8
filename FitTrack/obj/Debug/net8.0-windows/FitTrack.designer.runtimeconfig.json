@@ -12,8 +12,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\jonat\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\jonat\\.nuget\\packages"
+      "C:\\Users\\Jonte\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Jonte\\.nuget\\packages"
     ],
     "configProperties": {
       "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": true,

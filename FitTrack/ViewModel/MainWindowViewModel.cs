@@ -36,10 +36,21 @@ namespace FitTrack.ViewModel
             }
         }
 
+        public ICommand OpenRegisterWindowCommand { get; }
+
+        public MainWindowViewModel()
+        {
+            OpenRegisterWindowCommand = new RelayCommand(param => Register());
+        }
 
         private void Register()
         {
-
+            RegisterWindow registerwindow = new RegisterWindow
+            {
+                DataContext = new RegisterWindowViewModel()
+            };
+            registerwindow.Show();
+            
         }
 
     }
