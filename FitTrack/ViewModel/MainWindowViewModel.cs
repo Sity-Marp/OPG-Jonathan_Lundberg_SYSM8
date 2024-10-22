@@ -13,14 +13,13 @@ namespace FitTrack.ViewModel
 {
     internal class MainWindowViewModel : ViewModelBase
     {
-        private readonly Window _mainWindow;
 
         private string _username;
         private string _password;
 
         public string Username
         {
-            get => Username;
+            get => _username;
             set
             {
                 _username = value;

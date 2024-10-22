@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jonte\\Source\\Repos\\OPG-Jonathan_Lundberg_SYSM8\\FitTrack\\FitTrack.csproj": {}
+    "C:\\Users\\Jonte\\source\\repos\\OPG-Jonathan_Lundberg_SYSM8\\FitTrack\\FitTrack.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jonte\\Source\\Repos\\OPG-Jonathan_Lundberg_SYSM8\\FitTrack\\FitTrack.csproj": {
+    "C:\\Users\\Jonte\\source\\repos\\OPG-Jonathan_Lundberg_SYSM8\\FitTrack\\FitTrack.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jonte\\Source\\Repos\\OPG-Jonathan_Lundberg_SYSM8\\FitTrack\\FitTrack.csproj",
+        "projectUniqueName": "C:\\Users\\Jonte\\source\\repos\\OPG-Jonathan_Lundberg_SYSM8\\FitTrack\\FitTrack.csproj",
         "projectName": "FitTrack",
-        "projectPath": "C:\\Users\\Jonte\\Source\\Repos\\OPG-Jonathan_Lundberg_SYSM8\\FitTrack\\FitTrack.csproj",
+        "projectPath": "C:\\Users\\Jonte\\source\\repos\\OPG-Jonathan_Lundberg_SYSM8\\FitTrack\\FitTrack.csproj",
         "packagesPath": "C:\\Users\\Jonte\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jonte\\Source\\Repos\\OPG-Jonathan_Lundberg_SYSM8\\FitTrack\\obj\\",
+        "outputPath": "C:\\Users\\Jonte\\source\\repos\\OPG-Jonathan_Lundberg_SYSM8\\FitTrack\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jonte\\AppData\\Roaming\\NuGet\\NuGet.Config",

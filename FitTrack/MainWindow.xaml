@@ -5,11 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FitTrack.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="500">
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
     <Grid>
-        <Button Content="test" Width="300" Height="300" Command="{Binding OpenRegisterWindowCommand}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+
+        <Label Content="FitTrack" Grid.Row="0" Margin="50" FontSize="30" HorizontalContentAlignment="Center"/>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
+        <TextBlock Text="Username" Grid.Row="1" Margin="5" />
+        <TextBox  Width="100" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
+            <TextBlock Text="Password" Grid.Row="1" Margin="5" />
+            <TextBox  Width="100" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Login" Grid.Row="3" Width="100" Margin="40" />
+            <Button Content="Register" Width="100" Height="50" Command="{Binding OpenRegisterWindowCommand}" HorizontalAlignment="Right" />
+        </StackPanel>
     </Grid>
 </Window>

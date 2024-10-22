@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Jonte\Source\Repos\OPG-Jonathan_Lundberg_SYSM8\FitTrack\obj\Debug\net8.0-windows\
+C:\Users\Jonte\source\repos\OPG-Jonathan_Lundberg_SYSM8\FitTrack\obj\Debug\net8.0-windows\
 FitTrack
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Users\Jonte\Source\Repos\OPG-Jonathan_Lundberg_SYSM8\FitTrack\App.xaml
+C:\Users\Jonte\source\repos\OPG-Jonathan_Lundberg_SYSM8\FitTrack\App.xaml
 62033694029
 
 21626141212
 198-688555687
 MainWindow.xaml;View\AddWorkoutWindow.xaml;View\RegisterWindow.xaml;View\UserDetailsWindow.xaml;View\WorkoutDetailsWindow.xaml;View\WorkoutsWindow.xaml;
 
-False
+True
 
