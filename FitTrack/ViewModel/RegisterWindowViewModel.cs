@@ -1,5 +1,6 @@
 ﻿using FitTrack.Model;
 using FitTrack.MVVM;
+using FitTrack.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows;
 
 namespace FitTrack.ViewModel
 {
@@ -51,9 +53,16 @@ namespace FitTrack.ViewModel
         
         }
 
-        public ICommand Registercommand { get; }
+        public string ConfirmPassword
+        {
+            get { return _confirmPassword; }
+            set
+            {
+                _confirmPassword = value;
+                OnPropertyChanged(nameof(ConfirmPassword));
+            }
 
-
+        }
 
         public ObservableCollection<string> Countries
         {
@@ -79,8 +88,22 @@ namespace FitTrack.ViewModel
         public ICommand RegisterCommand { get; }
         private void Register()
         {
+            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password) || string.IsNullOrWhiteSpace(SelectedCountry))
+            {
+                MessageBox.Show("Please fill all fields.", "Validation Error", MessageBoxButton.OK);
+                return;
+            }
+
+            if (Password != ConfirmPassword)
+            {
+                MessageBox.Show("Passwords do not match.", "Validation Error", MessageBoxButton.OK);
+                return;
+            }
+
+
             var user = new User(Username, Password, SelectedCountry);
             _userManager.AddUser(user);
+            MessageBox.Show("ja", "err", MessageBoxButton.OKCancel);
 
         }
 

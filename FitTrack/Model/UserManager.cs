@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FitTrack.Model
 {
@@ -17,7 +18,14 @@ namespace FitTrack.Model
 
         public void AddUser(User user)
         {
-            _users.Add(user); // Add a user to the list
+            if (!_users.Any(u => u.Username == user.Username))
+            {
+                _users.Add(user);
+            }
+            else
+            {
+                MessageBox.Show("Username already exists.", "Error", MessageBoxButton.OK);
+            }
         }
 
         public List<User> GetUsers()
