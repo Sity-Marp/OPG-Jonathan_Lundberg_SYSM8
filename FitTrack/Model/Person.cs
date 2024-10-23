@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FitTrack.Model
 {
-    internal abstract class Person
+    public abstract class Person
     {
         //fields
         public string Username { get; set; }

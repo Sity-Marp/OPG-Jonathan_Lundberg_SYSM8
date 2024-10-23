@@ -7,6 +7,21 @@
         mc:Ignorable="d"
         Title="RegisterWindow" Height="450" Width="800">
     <Grid>
-        
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+            <TextBlock Text="Username"/>
+            <TextBox />
+
+            <TextBlock Text="Password"/>
+            <TextBox />
+
+            <TextBlock Text="Confirm Password"/>
+            <TextBox />
+
+            <ComboBox ItemsSource="{Binding Countries}"
+                      SelectedItem="{Binding SelectedCountry}"
+                      Width="200"/>
+
+            <Button Content="Register" Width="50" Height="50" Margin="20" />
+        </StackPanel>
     </Grid>
 </Window>

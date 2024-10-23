@@ -7,6 +7,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using FitTrack.Model;
+using System.Collections.ObjectModel;
 
 namespace FitTrack.MVVM
 {
@@ -19,5 +21,9 @@ namespace FitTrack.MVVM
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
+
+
     }
 }

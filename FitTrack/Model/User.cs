@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FitTrack.Model
 {
-    internal class User : Person
+    public class User : Person
     {
-        private string Country {  get; set; }
+        public string Country {  get; set; }
         private string SecurityQuestion { get; set; }
         private string SecurityAnswer { get; set; }
 
@@ -17,6 +17,11 @@ namespace FitTrack.Model
             this.Country = Country;
             this.SecurityQuestion = SecurityQuestion;
             this.SecurityAnswer = SecurityAnswer;
+        }
+
+        public User(string Username, string Password, string Country) : base(Username, Password)
+        {
+            this.Country = Country;
         }
 
         public override void SignIn()

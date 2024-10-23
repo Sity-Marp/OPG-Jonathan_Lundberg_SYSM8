@@ -14,6 +14,7 @@ namespace FitTrack.MVVM
 
         //Kollar om kommandot kan köras
         private Func<object, bool> canExecute;
+        private Action register;
 
 
         //Event som signalerar när kommandots möjlighet att köras har ändrats
@@ -27,6 +28,11 @@ namespace FitTrack.MVVM
         {
             this.execute = execute;
             this.canExecute = canExecute;
+        }
+
+        public RelayCommand(Action register)
+        {
+            this.register = register;
         }
 
         //Bestämmer om kommandot kan köras eller inte
