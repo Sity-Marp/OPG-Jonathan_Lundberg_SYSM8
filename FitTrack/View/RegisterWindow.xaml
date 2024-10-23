@@ -3,11 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FitTrack.View"
+        xmlns:local="clr-namespace:FitTrack.ViewModel"
         mc:Ignorable="d"
         Title="RegisterWindow" Height="450" Width="800">
-    
-    
+
+    <Window.DataContext>
+        <local:RegisterWindowViewModel />
+    </Window.DataContext>
+
+
     <Grid>
         <Border CornerRadius="10" BorderBrush="#FFC1C1C1" BorderThickness="2" Padding="20" Background="#FFF0F0F0">
             <StackPanel>
@@ -24,7 +28,8 @@
                          />
 
                 <TextBlock Text="Password" Margin="0,0,0,5"/>
-                <TextBox 
+                <TextBox
+                             Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
                              Height="30"
                              Margin="0,0,0,10"
                              Padding="5" 
@@ -35,6 +40,7 @@
 
                 <TextBlock Text="Confirm Password" Margin="0,0,0,5"/>
                 <TextBox 
+                             Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged}"
                              Height="30" 
                              Margin="0,0,0,10"
                              Padding="5" 

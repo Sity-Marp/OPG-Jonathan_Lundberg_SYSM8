@@ -15,7 +15,7 @@ namespace FitTrack.ViewModel
     internal class RegisterWindowViewModel : ViewModelBase //inherits from ViewModelBase
     {
         //fields
-        private readonly UserManager _userManager;
+        private UserManager _userManager;
         private ObservableCollection<string> _countries;
         private string _selectedCountry;
         private string _username;
@@ -27,7 +27,7 @@ namespace FitTrack.ViewModel
         {
             _userManager = new UserManager(); //initialize a usermanager
             LoadCountries();
-            RegisterCommand = new RelayCommand(Register);
+            RegisterCommand = new RelayCommand(param => Register());
         }
 
 
@@ -88,7 +88,7 @@ namespace FitTrack.ViewModel
         public ICommand RegisterCommand { get; }
         private void Register()
         {
-            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password) || string.IsNullOrWhiteSpace(SelectedCountry))
+            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password) || string.IsNullOrWhiteSpace(ConfirmPassword) || string.IsNullOrWhiteSpace(SelectedCountry))
             {
                 MessageBox.Show("Please fill all fields.", "Validation Error", MessageBoxButton.OK);
                 return;
@@ -102,8 +102,8 @@ namespace FitTrack.ViewModel
 
 
             var user = new User(Username, Password, SelectedCountry);
+            MessageBox.Show("User Created.", "Success!", MessageBoxButton.OK);
             _userManager.AddUser(user);
-            MessageBox.Show("ja", "err", MessageBoxButton.OKCancel);
 
         }
 
