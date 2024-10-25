@@ -6,9 +6,7 @@
         xmlns:local="clr-namespace:FitTrack.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="500">
-    <Window.DataContext>
-        <local:MainWindowViewModel />
-    </Window.DataContext>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

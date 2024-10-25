@@ -7,15 +7,21 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using FitTrack.MVVM;
+using FitTrack.Services;
 using FitTrack.View;
 
 namespace FitTrack.ViewModel
 {
     internal class MainWindowViewModel : ViewModelBase
     {
+        private IWindowService _windowService;
 
         private string _username;
         private string _password;
+
+        public ICommand OpenRegisterWindowCommand { get; set; }
+        public ICommand CloseRegisterWindowCommand { get; set; }
+
 
         public string Username
         {
@@ -37,22 +43,33 @@ namespace FitTrack.ViewModel
             }
         }
 
-        public ICommand OpenRegisterWindowCommand { get; }
 
-        public MainWindowViewModel()
+
+        public MainWindowViewModel(IWindowService windowService)
         {
+            _windowService = windowService;
+            
             OpenRegisterWindowCommand = new RelayCommand(param => Register());
+            CloseRegisterWindowCommand = new RelayCommand(param => OnCloseRegisterWindow());
         }
 
         private void Register()
         {
-            RegisterWindow registerwindow = new RegisterWindow
-            {
-                DataContext = new RegisterWindowViewModel()
-            };
-            registerwindow.Show();
+            _windowService.OpenWindow();
 
+            //RegisterWindow registerwindow = new RegisterWindow
+            //{
+            //    DataContext = new RegisterWindowViewModel()
+            //};
+            //registerwindow.Show();
             Application.Current.MainWindow.Close();
+
+
+        }
+
+        private void OnCloseRegisterWindow()
+        {
+            _windowService.CloseWindow();
         }
 
     }

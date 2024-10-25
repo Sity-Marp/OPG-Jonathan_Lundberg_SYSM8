@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FitTrack.Services;
 
 namespace FitTrack
 {
@@ -21,6 +22,12 @@ namespace FitTrack
         public MainWindow()
         {
             InitializeComponent();
+
+            //create instance of windowservice
+            var windowService = new WindowService();
+
+            //set the data context for main window to new instance of the viewmodel passing windowservice as a dependency
+            DataContext = new MainWindowViewModel(windowService);
         }
 
     }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
+using FitTrack.Services;
 
 namespace FitTrack.ViewModel
 {
@@ -23,7 +24,7 @@ namespace FitTrack.ViewModel
         private string _confirmPassword;
 
         //constructor
-        public RegisterWindowViewModel()
+        public RegisterWindowViewModel(IWindowService windowService)
         {
             _userManager = new UserManager(); //initialize a usermanager
             LoadCountries();
@@ -99,10 +100,13 @@ namespace FitTrack.ViewModel
                 MessageBox.Show("Passwords do not match.", "Validation Error", MessageBoxButton.OK);
                 return;
             }
+            else
+            {
+                MessageBox.Show("User Created.", "Success!", MessageBoxButton.OK);
+            }
 
 
             var user = new User(Username, Password, SelectedCountry);
-            MessageBox.Show("User Created.", "Success!", MessageBoxButton.OK);
             _userManager.AddUser(user);
 
         }
