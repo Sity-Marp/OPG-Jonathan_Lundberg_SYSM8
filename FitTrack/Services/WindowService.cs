@@ -15,16 +15,10 @@ namespace FitTrack.Services
         //  method to open any window
         public void OpenWindow<T>() where T : Window, new()
         {
-            // Create and open the a window
+            // Create and open the new window
             var window = new T();
             window.Show();
 
-            // Close the current window (if needed)
-            //var currentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-            //if (currentWindow != null)
-            //{
-            //    currentWindow.Close();
-            //}
         }
 
         public void CloseWindow()

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using FitTrack.Model;
 using FitTrack.MVVM;
 using FitTrack.Services;
 using FitTrack.View;
@@ -21,6 +22,7 @@ namespace FitTrack.ViewModel
 
         public ICommand OpenRegisterWindowCommand { get; set; }
         public ICommand CloseRegisterWindowCommand { get; set; }
+        public ICommand SignInCommand { get; set; }
 
 
         public string Username
@@ -51,21 +53,31 @@ namespace FitTrack.ViewModel
             
             OpenRegisterWindowCommand = new RelayCommand(param => Register());
             CloseRegisterWindowCommand = new RelayCommand(param => OnCloseRegisterWindow());
+            SignInCommand = new RelayCommand(param => SignIn());
         }
 
-        private void Register()
+
+        private void SignIn()
         {
-            _windowService.OpenWindow<RegisterWindow>();
+            // Check if credentials match any user in UserManager
+            bool isValidUser = UserManager.Instance.ValidateUser(Username, Password);
 
-            //RegisterWindow registerwindow = new RegisterWindow
-            //{
-            //    DataContext = new RegisterWindowViewModel()
-            //};
-            //registerwindow.Show();
-            //Application.Current.MainWindow.Close();
-
-
+            if (isValidUser)
+            {
+                MessageBox.Show("Sign-in successful!", "Success", MessageBoxButton.OK);
+                // Open the new window, etc.
+            }
+            else
+            {
+                MessageBox.Show("Invalid credentials. Please try again.", "Error", MessageBoxButton.OK);
+            }
         }
+
+
+            private void Register()
+            {
+                _windowService.OpenWindow<RegisterWindow>();
+            }
 
         private void OnCloseRegisterWindow()
         {

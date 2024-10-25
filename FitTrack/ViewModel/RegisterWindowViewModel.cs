@@ -26,7 +26,7 @@ namespace FitTrack.ViewModel
         //constructor
         public RegisterWindowViewModel(IWindowService windowService)
         {
-            _userManager = new UserManager(); //initialize a usermanager
+            
             LoadCountries();
             RegisterCommand = new RelayCommand(param => Register());
         }
@@ -107,7 +107,7 @@ namespace FitTrack.ViewModel
 
 
             var user = new User(Username, Password, SelectedCountry);
-            _userManager.AddUser(user);
+            UserManager.Instance.AddUser(user);
 
         }
 
