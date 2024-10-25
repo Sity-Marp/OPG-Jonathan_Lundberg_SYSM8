@@ -1,4 +1,5 @@
-﻿using FitTrack.View;
+﻿using FitTrack;
+using FitTrack.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +11,20 @@ namespace FitTrack.Services
 {
     public class WindowService : IWindowService
     {
-        public void OpenWindow()
+    
+        //  method to open any window
+        public void OpenWindow<T>() where T : Window, new()
         {
-            // create an instance of the new window
-            var window = new RegisterWindow();
+            // Create and open the a window
+            var window = new T();
+            window.Show();
 
-
-            var currentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-            if (currentWindow != null)
-            {
-                currentWindow.Close();
-            }
-
-
-            //show new window
-
-            window.ShowDialog();
+            // Close the current window (if needed)
+            //var currentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+            //if (currentWindow != null)
+            //{
+            //    currentWindow.Close();
+            //}
         }
 
         public void CloseWindow()
@@ -39,5 +38,25 @@ namespace FitTrack.Services
                 window.Close();
             }
         }
+
+        //Opens a new window and closes the old one.
+        public void OpenAndCloseWindow<T>() where T : Window, new()
+        {
+            var currentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+
+            // Create and open the new window
+            var window = new T();
+            window.Show();
+
+            // Close the current window (if needed)
+
+            if (currentWindow != null)
+            {
+                currentWindow.Close();
+            }
+        }
+
     }
 }
+
+

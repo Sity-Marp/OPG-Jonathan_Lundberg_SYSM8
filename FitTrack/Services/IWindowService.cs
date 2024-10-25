@@ -8,7 +8,8 @@ namespace FitTrack.Services
 {
     public interface IWindowService
     {
-        void OpenWindow();
+        void OpenWindow<T>() where T : System.Windows.Window, new();
         void CloseWindow();
+        void OpenAndCloseWindow<T>() where T : System.Windows.Window, new();
     }
 }

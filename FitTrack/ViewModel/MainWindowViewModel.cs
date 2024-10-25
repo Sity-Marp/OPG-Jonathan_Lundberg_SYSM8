@@ -55,14 +55,14 @@ namespace FitTrack.ViewModel
 
         private void Register()
         {
-            _windowService.OpenWindow();
+            _windowService.OpenWindow<RegisterWindow>();
 
             //RegisterWindow registerwindow = new RegisterWindow
             //{
             //    DataContext = new RegisterWindowViewModel()
             //};
             //registerwindow.Show();
-            Application.Current.MainWindow.Close();
+            //Application.Current.MainWindow.Close();
 
 
         }
