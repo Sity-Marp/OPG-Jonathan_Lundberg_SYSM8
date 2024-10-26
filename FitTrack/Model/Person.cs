@@ -19,7 +19,7 @@ namespace FitTrack.Model
             this.Password = Password;
         }
 
-        //abstract method
+        //virtual method to be implemented in subclasses
         public virtual void SignIn()
         {
 
