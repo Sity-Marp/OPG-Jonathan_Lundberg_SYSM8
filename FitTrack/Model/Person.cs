@@ -20,6 +20,9 @@ namespace FitTrack.Model
         }
 
         //abstract method
-        public abstract void SignIn();
+        public virtual void SignIn()
+        {
+
+        }
     }
 }

@@ -60,12 +60,14 @@ namespace FitTrack.ViewModel
         private void SignIn()
         {
             // Check if credentials match any user in UserManager
-            bool isValidUser = UserManager.Instance.ValidateUser(Username, Password);
+            var user = UserManager.Instance.GetUsers()
+                .FirstOrDefault(u => u.Username == Username && u.Password == Password);
 
-            if (isValidUser)
+            if (user != null)
             {
+                user.SignIn(); // Set the user as the current logged-in user
                 MessageBox.Show("Sign-in successful!", "Success", MessageBoxButton.OK);
-                // Open the new window, etc.
+                _windowService.OpenAndCloseWindow<WorkoutsWindow>();
             }
             else
             {
@@ -76,7 +78,7 @@ namespace FitTrack.ViewModel
 
             private void Register()
             {
-                _windowService.OpenWindow<RegisterWindow>();
+                _windowService.OpenAndCloseWindow<RegisterWindow>();
             }
 
         private void OnCloseRegisterWindow()

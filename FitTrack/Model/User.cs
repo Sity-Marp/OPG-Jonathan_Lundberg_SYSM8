@@ -8,6 +8,7 @@ namespace FitTrack.Model
 {
     public class User : Person
     {
+        public static User CurrentUser { get; private set; }
         public string Country {  get; set; }
         private string SecurityQuestion { get; set; }
         private string SecurityAnswer { get; set; }
@@ -26,7 +27,7 @@ namespace FitTrack.Model
 
         public override void SignIn()
         {
-            
+            CurrentUser = this;
         }
     }
 }

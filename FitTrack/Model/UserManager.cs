@@ -12,8 +12,9 @@ namespace FitTrack.Model
         // Private static instance to hold the single instance of UserManager
         private static UserManager _instance;
 
+
         // Lock object for thread-safety in case of multi-threaded access.
-        //This is probably overkill for this assignment, but was told it's a good idea to do so I'm doing it B).
+        //This is overkill for this assignment, but was told it's a good idea to do so I'm doing it B).
         private static readonly object _lock = new object();
 
         private List<User> _users;
@@ -50,10 +51,10 @@ namespace FitTrack.Model
         }
 
         //This should probably be elsewhere, check when I got internet.
-        public bool ValidateUser(string username, string password)
-        {
-            return _users.Any(u => u.Username == username && u.Password == password);
-        }
+        //public bool ValidateUser(string username, string password)
+        //{
+        //    return _users.Any(u => u.Username == username && u.Password == password);
+        //}
 
 
         // Adds a new user if the username is unique

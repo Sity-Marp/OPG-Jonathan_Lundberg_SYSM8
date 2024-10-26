@@ -15,8 +15,9 @@ namespace FitTrack.ViewModel
 {
     internal class RegisterWindowViewModel : ViewModelBase //inherits from ViewModelBase
     {
+        private IWindowService _windowService;
         //fields
-        private UserManager _userManager;
+        
         private ObservableCollection<string> _countries;
         private string _selectedCountry;
         private string _username;
@@ -26,7 +27,8 @@ namespace FitTrack.ViewModel
         //constructor
         public RegisterWindowViewModel(IWindowService windowService)
         {
-            
+            _windowService = windowService;
+
             LoadCountries();
             RegisterCommand = new RelayCommand(param => Register());
         }
@@ -108,7 +110,7 @@ namespace FitTrack.ViewModel
 
             var user = new User(Username, Password, SelectedCountry);
             UserManager.Instance.AddUser(user);
-
+            _windowService.OpenAndCloseWindow<MainWindow>();
         }
 
 
