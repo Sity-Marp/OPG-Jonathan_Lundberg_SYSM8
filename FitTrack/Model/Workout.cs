@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FitTrack.Model
 {
-    internal abstract class Workout
+    public abstract class Workout
     {
         public string Type { get; set; }
         public DateTime Date { get; set; }

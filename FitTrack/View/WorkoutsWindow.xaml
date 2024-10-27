@@ -64,18 +64,18 @@
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             CanUserDeleteRows="False"
-            ItemsSource="{Binding Items}"
+            ItemsSource="{Binding UserWorkouts}"
             SelectedItem="{Binding SelectedItem}">
 
                 <DataGrid.Columns>
                     <DataGridTextColumn
                     Width="4*"
-                    Binding="{Binding Name}"
-                    Header="Name" />
+                    Binding="{Binding Type}"
+                    Header="Type" />
                     <DataGridTextColumn
                     Width="4*"
-                    Binding="{Binding SerieNbr}"
-                    Header="SerieNbr" />
+                    Binding="{Binding Date}"
+                    Header="Date" />
                     <DataGridTextColumn
                     Width="1*"
                     Binding="{Binding Quantity}"

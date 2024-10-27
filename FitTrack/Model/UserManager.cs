@@ -28,6 +28,7 @@ namespace FitTrack.Model
             // Add test users
             _users.Add(new User("user", "password", "Canada"));
             _users.Add(new User("admin", "password", "Canada"));
+
         }
 
         // Public static property to provide global access to the instance
