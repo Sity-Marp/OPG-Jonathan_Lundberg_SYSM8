@@ -1,4 +1,5 @@
-﻿using FitTrack.Services;
+﻿using FitTrack.Model;
+using FitTrack.Services;
 using FitTrack.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,8 @@ namespace FitTrack.View
             InitializeComponent();
 
             var windowService = new WindowService();
-            DataContext = new WorkoutsWindowViewModel(windowService);
+            var workoutManager = new WorkoutManager(); // Create an instance of WorkoutManager
+            DataContext = new WorkoutsWindowViewModel(windowService, workoutManager);
         }
     }
 }

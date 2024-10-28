@@ -3,92 +3,49 @@ using FitTrack.MVVM;
 using FitTrack.Services;
 using FitTrack.View;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FitTrack.ViewModel
 {
     internal class WorkoutsWindowViewModel : ViewModelBase
     {
-        private List<Workout> _allWorkouts = new List<Workout>();
-        private readonly User _currentUser;
+        private readonly IWindowService _windowService;
+        private readonly WorkoutManager _workoutManager;
+
         public User CurrentUser { get; }
 
-        private IWindowService _windowService;
         public ICommand OpenUserDetailsWindowCommand { get; set; }
         public ICommand SignOutUserCommand { get; set; }
         public ICommand OpenAddWorkoutWindowCommand { get; set; }
         public ICommand OpenWorkoutDetailsWindowCommand { get; set; }
         public ICommand RemoveWorkoutCommand { get; set; }
 
-        // Property to store the user's workouts
+        // Collection of workouts specifically for the current user
         public ObservableCollection<Workout> UserWorkouts { get; private set; }
 
-        //display-purpose only
-        public string LoggedInUsername => User.CurrentUser?.Username ?? "Guest"; //defaults to "guest", should one should never be able to get to it.
+        // Display username of the logged-in user
+        public string LoggedInUsername => CurrentUser?.Username ?? "Guest";
 
-
-        public WorkoutsWindowViewModel(IWindowService windowService)
+        public WorkoutsWindowViewModel(IWindowService windowService, WorkoutManager workoutManager)
         {
             _windowService = windowService;
+            _workoutManager = workoutManager;
             CurrentUser = User.CurrentUser;
 
-            UserWorkouts = new ObservableCollection<Workout>();
-            _allWorkouts = new List<Workout>(); // Initialize an empty list for workouts
+            // Initialize the user's workout collection
+            UserWorkouts = new ObservableCollection<Workout>(_workoutManager.GetWorkoutsForUser(CurrentUser.Username));
 
-            // Check if the current user is "user" and add a sample workout if so
-            if (CurrentUser.Username == "user")
-            {
-                var userWorkout = new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test workout");
-                _allWorkouts.Add(userWorkout);
-                UserWorkouts.Add(userWorkout);
-            }
-
-            // Opens/closes windows.
-            OpenUserDetailsWindowCommand = new RelayCommand(param => UserDetailsWindow());
+            // Commands for various buttons in the UI
+            OpenUserDetailsWindowCommand = new RelayCommand(param => OpenUserDetailsWindow());
             SignOutUserCommand = new RelayCommand(param => SignOutUser());
-            OpenAddWorkoutWindowCommand = new RelayCommand(param => AddWorkoutWindow());
-            OpenWorkoutDetailsWindowCommand = new RelayCommand(param =>  WorkoutDetailsWindow());
-
-            RemoveWorkoutCommand = new RelayCommand(param => RemoveWorkout());
+            OpenAddWorkoutWindowCommand = new RelayCommand(param => OpenAddWorkoutWindow());
+            OpenWorkoutDetailsWindowCommand = new RelayCommand(param => OpenWorkoutDetailsWindow());
+            RemoveWorkoutCommand = new RelayCommand(param => RemoveSelectedWorkout());
         }
 
-        private void LoadUserWorkouts()
-        {
-            // Filter workouts for the current user
-            UserWorkouts.Clear();
-            foreach (var workout in GetWorkoutsForCurrentUser())
-            {
-                UserWorkouts.Add(workout);
-            }
-        }
-
-        private IEnumerable<Workout> GetWorkoutsForCurrentUser()
-        {
-            // Filter workouts based on the current user's identity (e.g., their Username)
-            return _allWorkouts.Where(workout => workout.GetType().GetProperty("Username")?.GetValue(workout) as string == _currentUser.Username);
-        }
-
-        private void AddWorkoutWindow()
-        {
-            //uncomment below when addworkout window is done.
-            //_windowService.OpenWindow<AddWorkoutWindow>();
-
-            // Example workout creation
-            var newWorkout = new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test workout");
-
-            // Add the workout to the overall list and user-specific view
-            _allWorkouts.Add(newWorkout);
-            UserWorkouts.Add(newWorkout);
-        }
-
-
-
-        private void UserDetailsWindow()
+        private void OpenUserDetailsWindow()
         {
             _windowService.OpenWindow<UserDetailsWindow>();
         }
@@ -98,15 +55,29 @@ namespace FitTrack.ViewModel
             _windowService.OpenAndCloseWindow<MainWindow>();
         }
 
+        private void OpenAddWorkoutWindow()
+        {
+            // Open the AddWorkoutWindow and create a new workout
+            var newWorkout = new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test workout");
 
-        private void WorkoutDetailsWindow()
+            // Add the workout to the WorkoutManager and to UserWorkouts for display
+            _workoutManager.AddWorkout(newWorkout);
+            UserWorkouts.Add(newWorkout);
+        }
+
+        private void OpenWorkoutDetailsWindow()
         {
             _windowService.OpenWindow<WorkoutDetailsWindow>();
         }
 
-        private void RemoveWorkout()
+        private void RemoveSelectedWorkout()
         {
-            //TODO implement
+            //// Assuming you have logic to remove the selected workout, e.g., through SelectedItem
+            //if (SelectedItem != null)
+            //{
+            //    _workoutManager.RemoveWorkout(SelectedItem);
+            //    UserWorkouts.Remove(SelectedItem);
+            //}
         }
     }
 }
