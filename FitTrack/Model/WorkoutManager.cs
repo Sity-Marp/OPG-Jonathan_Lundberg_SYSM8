@@ -30,6 +30,8 @@ namespace FitTrack.Model
             _workouts.Where(workout => workout.GetType().GetProperty("Username")?.GetValue(workout) as string == username);
 
         public void AddWorkout(Workout workout) => _workouts.Add(workout);
+
+        public void RemoveWorkout(Workout workout) => _workouts.Remove(workout);
     }
 
 }

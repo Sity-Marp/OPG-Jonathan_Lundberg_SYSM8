@@ -5,6 +5,7 @@ using FitTrack.View;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace FitTrack.ViewModel
@@ -21,6 +22,18 @@ namespace FitTrack.ViewModel
         public ICommand OpenAddWorkoutWindowCommand { get; set; }
         public ICommand OpenWorkoutDetailsWindowCommand { get; set; }
         public ICommand RemoveWorkoutCommand { get; set; }
+
+
+        private Workout selectedWorkout;
+        public Workout SelectedWorkout
+        {
+            get => selectedWorkout; 
+            set
+            {
+                selectedWorkout = value;
+                OnPropertyChanged();
+            }
+        }
 
         // Collection of workouts specifically for the current user
         public ObservableCollection<Workout> UserWorkouts { get; private set; }
@@ -57,27 +70,38 @@ namespace FitTrack.ViewModel
 
         private void OpenAddWorkoutWindow()
         {
-            // Open the AddWorkoutWindow and create a new workout
-            var newWorkout = new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test workout");
+            // TEMP using the AddWorkoutWindow to create a new workout
+            _windowService.OpenWindow<AddWorkoutWindow>();
+            //var newWorkout = new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test workout");
 
-            // Add the workout to the WorkoutManager and to UserWorkouts for display
-            _workoutManager.AddWorkout(newWorkout);
-            UserWorkouts.Add(newWorkout);
+            //// Add the workout to the WorkoutManager and to UserWorkouts for display
+            //_workoutManager.AddWorkout(newWorkout);
+            //UserWorkouts.Add(newWorkout);
         }
 
         private void OpenWorkoutDetailsWindow()
         {
-            _windowService.OpenWindow<WorkoutDetailsWindow>();
+            if (SelectedWorkout == null)
+            {
+                MessageBox.Show("Please select a workout first.");
+                return;
+            }
+
+            var windowService = new WindowService();
+            var workoutDetailsWindow = new WorkoutDetailsWindow();
+            workoutDetailsWindow.DataContext = new WorkoutDetailsWindowViewModel(windowService, SelectedWorkout);
+            workoutDetailsWindow.ShowDialog();
+            //_windowService.OpenWindow<WorkoutDetailsWindow, Workout>(SelectedWorkout);
         }
 
         private void RemoveSelectedWorkout()
         {
-            //// Assuming you have logic to remove the selected workout, e.g., through SelectedItem
-            //if (SelectedItem != null)
-            //{
-            //    _workoutManager.RemoveWorkout(SelectedItem);
-            //    UserWorkouts.Remove(SelectedItem);
-            //}
+
+            if (SelectedWorkout != null)
+            {
+                _workoutManager.RemoveWorkout(SelectedWorkout);
+                UserWorkouts.Remove(SelectedWorkout);
+            }
         }
     }
 }

@@ -21,16 +21,22 @@ namespace FitTrack.Services
 
         }
 
+        public void OpenWindow<T, TParameter>(TParameter parameter) where T : Window
+        {
+            var window = (T)Activator.CreateInstance(typeof(T), parameter);
+            window.Show();
+        }
+
         public void CloseWindow()
         {
-            //get reference to current window
-            var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+          //get reference to current window
+          var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 
-            //close window
-            if (window != null)
-            {
+          //close window
+          if (window != null)
+          {
                 window.Close();
-            }
+          }
         }
 
         //Opens a new window and closes the old one.

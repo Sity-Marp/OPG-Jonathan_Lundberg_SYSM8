@@ -7,6 +7,45 @@
         mc:Ignorable="d"
         Title="WorkoutDetailsWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Workout Type:" Grid.Row="0" FontWeight="Bold" Margin="0,5"/>
+        <TextBox Text="{Binding WorkoutType, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="0" Margin="100,5,0,5" IsReadOnly="{Binding IsReadOnly}"/>
+
+        <TextBlock Text="Date:" Grid.Row="1" FontWeight="Bold" Margin="0,5"/>
+        <DatePicker SelectedDate="{Binding WorkoutDate, UpdateSourceTrigger=PropertyChanged}" 
+                    Grid.Row="1" Margin="100,5,0,5" IsEnabled="{Binding IsEditable}"/>
+
+        <TextBlock Text="Duration:" Grid.Row="2" FontWeight="Bold" Margin="0,5"/>
+        <TextBox Text="{Binding WorkoutDuration, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="2" Margin="100,5,0,5" IsReadOnly="{Binding IsReadOnly}"/>
+
+        <TextBlock Text="Calories Burned:" Grid.Row="3" FontWeight="Bold" Margin="0,5"/>
+        <TextBox Text="{Binding CaloriesBurned, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="3" Margin="100,5,0,5" IsReadOnly="{Binding IsReadOnly}"/>
+
+        <TextBlock Text="Repetitions:" Grid.Row="4" FontWeight="Bold" Margin="0,5"/>
+        <TextBox Text="{Binding Repetitions, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="4" Margin="100,5,0,5" IsReadOnly="{Binding IsReadOnly}"/>
+
+        <TextBlock Text="Notes:" Grid.Row="5" FontWeight="Bold" Margin="0,5"/>
+        <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="5" Margin="100,5,0,5" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="{Binding IsReadOnly}"/>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Button Content="Edit" Width="80" Height="30" Margin="0,0,10,0" Command="{Binding EditCommand}"/>
+            <Button Content="Save" Width="80" Height="30" Margin="0,0,10,0" Command="{Binding SaveCommand}"/>
+            <Button Content="Close" Width="80" Height="30" Command="{Binding CloseCommand}"/>
+        </StackPanel>
     </Grid>
 </Window>

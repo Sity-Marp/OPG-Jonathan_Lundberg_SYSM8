@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FitTrack.Model
 {
-    internal class StrengthWorkout : Workout
+    public class StrengthWorkout : Workout
     {
         public int Repetitions { get; set; }
 

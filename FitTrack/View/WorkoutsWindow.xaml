@@ -64,8 +64,10 @@
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             CanUserDeleteRows="False"
+            IsReadOnly="True"
+            SelectionMode="Single"
             ItemsSource="{Binding UserWorkouts}"
-            SelectedItem="{Binding SelectedItem}">
+            SelectedItem="{Binding SelectedWorkout}">
 
                 <DataGrid.Columns>
                     <DataGridTextColumn
@@ -87,7 +89,7 @@
             <StackPanel Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
                 <Button Content="Add Workout" Margin="10" Height="50" Command="{Binding OpenAddWorkoutWindowCommand}" />
                 <Button Content="Workout Details" Margin="10" Height="50" Command="{Binding OpenWorkoutDetailsWindowCommand}" />
-                <Button Content="Remove Workout" Margin="10"  Height="50" />
+                <Button Content="Remove Workout" Margin="10"  Height="50" Command="{Binding RemoveWorkoutCommand}" />
             </StackPanel>
 
         </Grid>
