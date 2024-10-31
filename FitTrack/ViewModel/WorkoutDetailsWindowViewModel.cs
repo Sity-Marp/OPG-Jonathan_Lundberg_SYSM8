@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FitTrack.Model;
 using System.Windows.Input;
+using System.Windows;
 
 namespace FitTrack.ViewModel
 {
@@ -22,6 +23,7 @@ namespace FitTrack.ViewModel
             {
                 _selectedWorkout = value;
                 OnPropertyChanged();
+                // Notify about all related properties
                 OnPropertyChanged(nameof(WorkoutType));
                 OnPropertyChanged(nameof(WorkoutDate));
                 OnPropertyChanged(nameof(WorkoutDuration));
@@ -52,8 +54,8 @@ namespace FitTrack.ViewModel
             {
                 if (SelectedWorkout != null)
                 {
-                    SelectedWorkout.Type = value; 
-                    OnPropertyChanged(); 
+                    SelectedWorkout.Type = value;
+                    OnPropertyChanged();
                 }
             }
         }
@@ -65,7 +67,7 @@ namespace FitTrack.ViewModel
             {
                 if (SelectedWorkout != null)
                 {
-                    SelectedWorkout.Date = value; 
+                    SelectedWorkout.Date = value;
                     OnPropertyChanged();
                 }
             }
@@ -78,7 +80,7 @@ namespace FitTrack.ViewModel
             {
                 if (SelectedWorkout != null)
                 {
-                    SelectedWorkout.Duration = value; 
+                    SelectedWorkout.Duration = value;
                     OnPropertyChanged();
                 }
             }
@@ -91,7 +93,7 @@ namespace FitTrack.ViewModel
             {
                 if (SelectedWorkout != null)
                 {
-                    SelectedWorkout.CaloriesBurned = value; 
+                    SelectedWorkout.CaloriesBurned = value;
                     OnPropertyChanged();
                 }
             }
@@ -117,19 +119,17 @@ namespace FitTrack.ViewModel
             {
                 if (SelectedWorkout != null)
                 {
-                    SelectedWorkout.Notes = value; 
+                    SelectedWorkout.Notes = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-
-        public WorkoutDetailsWindowViewModel(IWindowService windowService,Workout workout)
+        public WorkoutDetailsWindowViewModel(IWindowService windowService, Workout workout)
         {
             _windowService = windowService;
             SelectedWorkout = workout;
         }
-
 
         // Close command to handle the Close button click
         public ICommand CloseCommand => new RelayCommand(param => CloseWindow());
@@ -143,13 +143,16 @@ namespace FitTrack.ViewModel
 
         private void EditWorkout()
         {
-            IsReadOnly = !IsReadOnly;
+            IsReadOnly = !IsReadOnly; // Toggle edit mode
         }
 
         private void SaveWorkout()
         {
-            _windowService.CloseWindow();
-        }
 
+            // Since the SelectedWorkout is a reference type,
+            // the updates will automatically reflect in the workouts list in WorkoutsWindowViewModel.
+            MessageBox.Show("Workout updated successfully!"); // Show confirmation
+            _windowService.CloseWindow(); // Close the details window
+        }
     }
 }

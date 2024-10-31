@@ -23,6 +23,15 @@ namespace FitTrack.ViewModel
         public ICommand OpenWorkoutDetailsWindowCommand { get; set; }
         public ICommand RemoveWorkoutCommand { get; set; }
 
+        private Workout newWorkout;
+        public Workout NewWorkout
+        {
+            get => newWorkout;
+            set
+            {
+                newWorkout = value;
+            }
+        }
 
         private Workout selectedWorkout;
         public Workout SelectedWorkout
@@ -36,15 +45,15 @@ namespace FitTrack.ViewModel
         }
 
         // Collection of workouts specifically for the current user
-        public ObservableCollection<Workout> UserWorkouts { get; private set; }
+        public ObservableCollection<Workout> UserWorkouts { get; set; }
 
         // Display username of the logged-in user
         public string LoggedInUsername => CurrentUser?.Username ?? "Guest";
 
         public WorkoutsWindowViewModel(IWindowService windowService, WorkoutManager workoutManager)
         {
+            _workoutManager = WorkoutManager.Instance;
             _windowService = windowService;
-            _workoutManager = workoutManager;
             CurrentUser = User.CurrentUser;
 
             // Initialize the user's workout collection
@@ -71,12 +80,18 @@ namespace FitTrack.ViewModel
         private void OpenAddWorkoutWindow()
         {
             // TEMP using the AddWorkoutWindow to create a new workout
-            _windowService.OpenWindow<AddWorkoutWindow>();
+
             //var newWorkout = new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test workout");
 
             //// Add the workout to the WorkoutManager and to UserWorkouts for display
             //_workoutManager.AddWorkout(newWorkout);
             //UserWorkouts.Add(newWorkout);
+            var addWorkoutWindow = new AddWorkoutWindow();
+            var addWorkoutWindowViewModel = new AddWorkoutWindowViewModel(_windowService, UserWorkouts);
+            addWorkoutWindow.DataContext = addWorkoutWindowViewModel;
+
+            addWorkoutWindow.ShowDialog();
+            //_windowService.OpenWindow<AddWorkoutWindow>();
         }
 
         private void OpenWorkoutDetailsWindow()
@@ -89,9 +104,23 @@ namespace FitTrack.ViewModel
 
             var windowService = new WindowService();
             var workoutDetailsWindow = new WorkoutDetailsWindow();
-            workoutDetailsWindow.DataContext = new WorkoutDetailsWindowViewModel(windowService, SelectedWorkout);
+            var workoutDetailsViewModel = new WorkoutDetailsWindowViewModel(windowService, SelectedWorkout);
+            workoutDetailsWindow.DataContext = workoutDetailsViewModel;
+
+            workoutDetailsViewModel.PropertyChanged += WorkoutDetailsViewModel_PropertyChanged;
+
+
+
             workoutDetailsWindow.ShowDialog();
-            //_windowService.OpenWindow<WorkoutDetailsWindow, Workout>(SelectedWorkout);
+        }
+
+        //updates the list after the workout has been modified in the details window.
+        private void WorkoutDetailsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(WorkoutDetailsWindowViewModel.SelectedWorkout))
+            {
+                OnPropertyChanged(nameof(UserWorkouts));
+            }
         }
 
         private void RemoveSelectedWorkout()

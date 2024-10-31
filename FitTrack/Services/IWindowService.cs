@@ -15,5 +15,6 @@ namespace FitTrack.Services
 
         void CloseWindow();
         void OpenAndCloseWindow<T>() where T : System.Windows.Window, new();
+
     }
 }
