@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace FitTrack.Model
@@ -12,23 +10,22 @@ namespace FitTrack.Model
         // Private static instance to hold the single instance of UserManager
         private static UserManager _instance;
 
-
-        // Lock object for thread-safety in case of multi-threaded access.
-        //This is overkill for this assignment, but was told it's a good idea to do so I'm doing it B).
+        // Lock object for thread-safety in case of multi-threaded access
         private static readonly object _lock = new object();
 
         private List<User> _users;
 
-        // Private constructor to prevent instantiation from other classes.
+        // Property to hold the current user
+        public User CurrentUser { get; set; }
+
+        // Private constructor to prevent instantiation from other classes
         private UserManager()
         {
             _users = new List<User>(); // Initialize the list of users
 
-
             // Add test users
             _users.Add(new User("user", "password", "Canada"));
             _users.Add(new User("admin", "password", "Canada"));
-
         }
 
         // Public static property to provide global access to the instance
@@ -51,13 +48,6 @@ namespace FitTrack.Model
             }
         }
 
-        //This should probably be elsewhere, check when I got internet.
-        //public bool ValidateUser(string username, string password)
-        //{
-        //    return _users.Any(u => u.Username == username && u.Password == password);
-        //}
-
-
         // Adds a new user if the username is unique
         public void AddUser(User user)
         {
@@ -69,6 +59,28 @@ namespace FitTrack.Model
             {
                 MessageBox.Show("Username already exists.", "Error", MessageBoxButton.OK);
             }
+        }
+
+        // Updates an existing user's information
+        public void UpdateUser(User updatedUser)
+        {
+            var existingUser = _users.FirstOrDefault(u => u.Username == updatedUser.Username);
+            if (existingUser != null)
+            {
+                existingUser.Password = updatedUser.Password;
+                existingUser.Country = updatedUser.Country;
+                MessageBox.Show("User information updated successfully.", "Success", MessageBoxButton.OK);
+            }
+            else
+            {
+                MessageBox.Show("User not found.", "Error", MessageBoxButton.OK);
+            }
+        }
+
+        // Checks if a username is already taken
+        public bool IsUsernameTaken(string username)
+        {
+            return _users.Any(u => u.Username == username);
         }
 
         // Returns the list of users

@@ -17,11 +17,6 @@ namespace FitTrack.Model
         {
             _workouts = new List<Workout>();
 
-            // Example of adding a test workout for "user" on startup
-            if (User.CurrentUser?.Username == "user")
-            {
-                _workouts.Add(new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test workout"));
-            }
         }
 
         public IEnumerable<Workout> GetAllWorkouts() => _workouts;

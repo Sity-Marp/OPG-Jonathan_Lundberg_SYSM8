@@ -25,27 +25,77 @@
 
         <!-- Type -->
         <Label Grid.Row="0" Grid.Column="0" Content="Type:" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding WorkoutToEdit.Type, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding WorkoutTypes}" SelectedValue="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
         <!-- Repetitions -->
-        <Label Grid.Row="1" Grid.Column="0" Content="Repetitions:" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding WorkoutToEdit.Repetitions, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <!-- Handles showing repetitions or distance depending on workout selected in the combobox -->
+        <Label Grid.Row="1" Grid.Column="0" Content="Repetitions:" VerticalAlignment="Center">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsStrengthWorkout}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Repetitions, UpdateSourceTrigger=PropertyChanged}" Margin="5">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsStrengthWorkout}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
 
+        <!-- Distance -->
+        <!-- Handles showing repetitions or distance depending on workout selected in the combobox -->
+        <Label Grid.Row="1" Grid.Column="0" Content="Distance:" VerticalAlignment="Center">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCardioWorkout}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Distance, UpdateSourceTrigger=PropertyChanged}" Margin="5">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCardioWorkout}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        
         <!-- Date -->
         <Label Grid.Row="2" Grid.Column="0" Content="Date:" VerticalAlignment="Center"/>
-        <DatePicker Grid.Row="2" Grid.Column="1" SelectedDate="{Binding WorkoutToEdit.Date, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <DatePicker Grid.Row="2" Grid.Column="1" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
         <!-- Duration -->
         <Label Grid.Row="3" Grid.Column="0" Content="Duration:" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding WorkoutToEdit.Duration, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
         <!-- Calories Burned -->
         <Label Grid.Row="4" Grid.Column="0" Content="Calories Burned:" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding WorkoutToEdit.CaloriesBurned, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding CaloriesBurned, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
         <!-- Notes -->
         <Label Grid.Row="5" Grid.Column="0" Content="Notes:" VerticalAlignment="Top" Margin="5"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding WorkoutToEdit.Notes, UpdateSourceTrigger=PropertyChanged}" Margin="5" Height="100" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" Margin="5" Height="100" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
 
         <!-- Add Workout Button -->
         <Button Grid.Row="6" Grid.Column="1" Content="Add Workout" Command="{Binding AddWorkoutCommand}" HorizontalAlignment="Right" Margin="5"/>

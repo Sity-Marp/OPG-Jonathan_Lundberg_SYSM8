@@ -22,21 +22,35 @@ namespace FitTrack.ViewModel
 
         private string _type;
         private int _repetitions;
+        private int _distance;
         private DateTime _date;
         private TimeSpan _duration;
         private int _caloriesBurned;
         private string _notes;
 
+        public ObservableCollection<string> WorkoutTypes { get; }
+
         public string Type
         {
             get => _type;
-            set { _type = value; OnPropertyChanged(nameof(Type)); }
+            set {
+                _type = value; 
+                OnPropertyChanged(nameof(Type));
+                OnPropertyChanged(nameof(IsStrengthWorkout));
+                OnPropertyChanged(nameof(IsCardioWorkout));
+
+            }
         }
 
         public int Repetitions
         {
             get => _repetitions;
             set { _repetitions = value; OnPropertyChanged(nameof(Repetitions)); }
+        }
+        public int Distance
+        {
+            get => _distance;
+            set { _distance = value; OnPropertyChanged(nameof(Distance)); }
         }
 
         public DateTime Date
@@ -63,6 +77,9 @@ namespace FitTrack.ViewModel
             set { _notes = value; OnPropertyChanged(nameof(Notes)); }
         }
 
+        public bool IsStrengthWorkout => Type == "Strength";
+        public bool IsCardioWorkout => Type == "Cardio";
+
         public ICommand AddWorkoutCommand { get; }
 
         public AddWorkoutWindowViewModel(IWindowService windowService, ObservableCollection<Workout> userWorkouts)
@@ -72,19 +89,63 @@ namespace FitTrack.ViewModel
             _userWorkouts = userWorkouts;
             Date = DateTime.Now;
             AddWorkoutCommand = new RelayCommand(AddWorkout);
+
+            WorkoutTypes = new ObservableCollection<string> { "Cardio", "Strength" };
         }
 
         private void AddWorkout(object parameter)
         {
+            if (!ValidateFields())
+            {
+                MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
-            MessageBox.Show("AddWorkoutCommand executed!");
+            Workout newWorkout;
 
-            var newWorkout = new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test workout");
+            if (Type == "Cardio")
+            {
+                newWorkout = new CardioWorkout(Repetitions, Type, Date, Duration, CaloriesBurned, Notes);
+            }
+            else if (Type == "Strength")
+            {
+                newWorkout = new StrengthWorkout(Repetitions, Type, Date, Duration, CaloriesBurned, Notes);
+            }
+            else
+            {
+                MessageBox.Show("Please select a valid workout type.");
+                return;
+            }
+
             _workoutManager.AddWorkout(newWorkout);
-            // Update the UserWorkouts collection in the WorkoutsWindowViewModel
             _userWorkouts.Add(newWorkout);
             _windowService.CloseWindow();
+        }
 
+        private bool ValidateFields()
+        {
+            if (string.IsNullOrWhiteSpace(Type))
+                return false;
+
+            if (IsStrengthWorkout && Repetitions <= 0)
+                return false;
+
+            if (IsCardioWorkout && Distance <= 0)
+                return false;
+
+            if (Date == default(DateTime))
+                return false;
+
+            if (Duration == default(TimeSpan))
+                return false;
+
+            if (CaloriesBurned <= 0)
+                return false;
+
+            if (string.IsNullOrWhiteSpace(Notes))
+                return false;
+
+            return true;
         }
 
     }

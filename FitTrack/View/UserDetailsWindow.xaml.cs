@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FitTrack.Services;
+using FitTrack.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,9 @@ namespace FitTrack.View
         public UserDetailsWindow()
         {
             InitializeComponent();
+
+            var windowService = new WindowService();
+            DataContext = new UserDetailsWindowViewModel(windowService);
         }
     }
 }

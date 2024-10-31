@@ -65,6 +65,7 @@ namespace FitTrack.ViewModel
 
             if (user != null)
             {
+
                 user.SignIn(); // Set the user as the current logged-in user
                 MessageBox.Show("Sign-in successful!", "Success", MessageBoxButton.OK);
                 _windowService.OpenAndCloseWindow<WorkoutsWindow>();

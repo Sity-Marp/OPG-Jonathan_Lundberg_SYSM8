@@ -78,10 +78,6 @@
                     Width="4*"
                     Binding="{Binding Date}"
                     Header="Date" />
-                    <DataGridTextColumn
-                    Width="1*"
-                    Binding="{Binding Repetitions}"
-                    Header="Repetitions" />
                 </DataGrid.Columns>
 
             </DataGrid>

@@ -50,6 +50,7 @@ namespace FitTrack.ViewModel
         // Display username of the logged-in user
         public string LoggedInUsername => CurrentUser?.Username ?? "Guest";
 
+
         public WorkoutsWindowViewModel(IWindowService windowService, WorkoutManager workoutManager)
         {
             _workoutManager = WorkoutManager.Instance;
@@ -58,6 +59,13 @@ namespace FitTrack.ViewModel
 
             // Initialize the user's workout collection
             UserWorkouts = new ObservableCollection<Workout>(_workoutManager.GetWorkoutsForUser(CurrentUser.Username));
+
+            // User user test workouts.
+            if (User.CurrentUser?.Username == "user")
+            {
+                UserWorkouts.Add(new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test strength workout"));
+                UserWorkouts.Add(new CardioWorkout(10, "Cardio", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test cardio workout"));
+            }
 
             // Commands for various buttons in the UI
             OpenUserDetailsWindowCommand = new RelayCommand(param => OpenUserDetailsWindow());
@@ -69,6 +77,7 @@ namespace FitTrack.ViewModel
 
         private void OpenUserDetailsWindow()
         {
+            var CurrentUser = User.CurrentUser;
             _windowService.OpenWindow<UserDetailsWindow>();
         }
 
