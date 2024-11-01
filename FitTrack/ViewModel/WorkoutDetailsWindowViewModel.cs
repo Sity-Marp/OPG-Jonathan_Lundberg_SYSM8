@@ -131,7 +131,7 @@ namespace FitTrack.ViewModel
             SelectedWorkout = workout;
         }
 
-        // Close command to handle the Close button click
+        // commands to handle button logic
         public ICommand CloseCommand => new RelayCommand(param => CloseWindow());
         public ICommand EditCommand => new RelayCommand(param => EditWorkout());
         public ICommand SaveCommand => new RelayCommand(param => SaveWorkout());

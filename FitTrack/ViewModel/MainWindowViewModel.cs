@@ -16,6 +16,8 @@ namespace FitTrack.ViewModel
     internal class MainWindowViewModel : ViewModelBase
     {
         private IWindowService _windowService;
+        private readonly UserManager _userManager;
+        private readonly WorkoutManager _workoutManager;
 
         private string _username;
         private string _password;
@@ -46,16 +48,22 @@ namespace FitTrack.ViewModel
         }
 
 
-
+        //constructor
         public MainWindowViewModel(IWindowService windowService)
         {
             _windowService = windowService;
-            
+            _userManager = UserManager.Instance;
+            _workoutManager = WorkoutManager.Instance;
+
             OpenRegisterWindowCommand = new RelayCommand(param => Register());
             CloseRegisterWindowCommand = new RelayCommand(param => OnCloseRegisterWindow());
             SignInCommand = new RelayCommand(param => SignIn());
+
+
         }
 
+
+        
 
         private void SignIn()
         {
@@ -65,7 +73,7 @@ namespace FitTrack.ViewModel
 
             if (user != null)
             {
-
+                UserManager.Instance.SetCurrentUser(user);
                 user.SignIn(); // Set the user as the current logged-in user
                 MessageBox.Show("Sign-in successful!", "Success", MessageBoxButton.OK);
                 _windowService.OpenAndCloseWindow<WorkoutsWindow>();
@@ -80,6 +88,7 @@ namespace FitTrack.ViewModel
             private void Register()
             {
                 _windowService.OpenAndCloseWindow<RegisterWindow>();
+
             }
 
         private void OnCloseRegisterWindow()

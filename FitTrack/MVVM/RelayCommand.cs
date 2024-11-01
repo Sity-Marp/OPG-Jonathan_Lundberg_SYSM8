@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FitTrack.MVVM
-{
+{ //copy paste :))
     public class RelayCommand : ICommand
     {
         //Fält för att hålla referenser till metoder som definierar vad som ska göras (Execute)

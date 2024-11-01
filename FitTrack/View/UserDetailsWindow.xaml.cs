@@ -21,12 +21,11 @@ namespace FitTrack.View
     /// </summary>
     public partial class UserDetailsWindow : Window
     {
-        public UserDetailsWindow()
+        public UserDetailsWindow(UserDetailsWindowViewModel viewModel)
         {
             InitializeComponent();
-
-            var windowService = new WindowService();
-            DataContext = new UserDetailsWindowViewModel(windowService);
+            DataContext = viewModel;
         }
     }
+    
 }

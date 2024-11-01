@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -13,7 +14,8 @@ namespace FitTrack.Model
         // Lock object for thread-safety in case of multi-threaded access
         private static readonly object _lock = new object();
 
-        private List<User> _users;
+        private List<User> _users; // List of all users
+        private Dictionary<string, ObservableCollection<Workout>> _userWorkouts; // User workouts
 
         // Property to hold the current user
         public User CurrentUser { get; set; }
@@ -22,11 +24,39 @@ namespace FitTrack.Model
         private UserManager()
         {
             _users = new List<User>(); // Initialize the list of users
+            _userWorkouts = new Dictionary<string, ObservableCollection<Workout>>();
 
-            // Add test users
-            _users.Add(new User("user", "password", "Canada"));
-            _users.Add(new User("admin", "password", "Canada"));
+            // Add test users and their workouts
+            var testUser = new User("user", "password", "Canada");
+            _users.Add(testUser);
+            InitializeUserWorkouts(testUser.Username);
+
+            var adminUser = new Admin("admin", "password", "Canada");
+            _users.Add(adminUser);
+            InitializeUserWorkouts(adminUser.Username);
         }
+
+        // Initialize workouts for a user
+        private void InitializeUserWorkouts(string username)
+        {
+            var workouts = new ObservableCollection<Workout>();
+            if (username == "user")
+            {
+                workouts.Add(new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test strength workout"));
+                workouts.Add(new CardioWorkout(10, "Cardio", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test cardio workout"));
+            }
+
+            _userWorkouts[username] = workouts; // Store the workouts for the user
+        }
+
+        // Get workouts for the specified user
+        public ObservableCollection<Workout> GetUserWorkouts(string username)
+        {
+            return _userWorkouts.ContainsKey(username) ? _userWorkouts[username] : new ObservableCollection<Workout>();
+        }
+
+        // Get all workouts (Admin functionality)
+        public IEnumerable<Workout> GetAllWorkouts() => _userWorkouts.SelectMany(uw => uw.Value);
 
         // Public static property to provide global access to the instance
         public static UserManager Instance
@@ -54,6 +84,7 @@ namespace FitTrack.Model
             if (!_users.Any(u => u.Username == user.Username))
             {
                 _users.Add(user);
+                _userWorkouts[user.Username] = new ObservableCollection<Workout>(); // Initialize workouts for the new user
             }
             else
             {
@@ -61,7 +92,7 @@ namespace FitTrack.Model
             }
         }
 
-        // Updates an existing user's information
+        // Updates an existing user's information, (userdetailswindow)
         public void UpdateUser(User updatedUser)
         {
             var existingUser = _users.FirstOrDefault(u => u.Username == updatedUser.Username);
@@ -87,6 +118,38 @@ namespace FitTrack.Model
         public List<User> GetUsers()
         {
             return _users;
+        }
+
+        // Sets the current user
+        public void SetCurrentUser(User user)
+        {
+            CurrentUser = user;
+        }
+
+        // Adds a workout for the specified user
+        public void AddWorkout(string username, Workout workout)
+        {
+            if (_userWorkouts.ContainsKey(username))
+            {
+                _userWorkouts[username].Add(workout);
+            }
+            else
+            {
+                MessageBox.Show("User not found.", "Error", MessageBoxButton.OK);
+            }
+        }
+
+        // Removes a workout for the specified user
+        public void RemoveWorkout(string username, Workout workout)
+        {
+            if (_userWorkouts.ContainsKey(username) && _userWorkouts[username].Contains(workout))
+            {
+                _userWorkouts[username].Remove(workout);
+            }
+            else
+            {
+                MessageBox.Show("Workout not found for the specified user.", "Error", MessageBoxButton.OK);
+            }
         }
     }
 }

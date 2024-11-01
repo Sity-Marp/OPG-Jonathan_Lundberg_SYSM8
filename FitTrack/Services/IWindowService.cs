@@ -8,6 +8,7 @@ namespace FitTrack.Services
 {
     public interface IWindowService
     {
+        //idea was to used this to deal with opening windows but time restraints.
         void OpenWindow<T>() where T : System.Windows.Window, new();
 
         //overload the above method so we can take both window type and a parameter. (for windows that requires a parameter like WorkoutDetails)

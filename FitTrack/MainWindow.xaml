@@ -8,9 +8,9 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Grid>
-        <Border CornerRadius="10" BorderBrush="#FFC1C1C1" BorderThickness="2" Padding="20" Background="#FFF0F0F0">
+        <Border CornerRadius="10" BorderBrush="#D3D3D3" BorderThickness="2" Padding="20" Background="#FFF0F0F0">
             <StackPanel>
-                <TextBlock Text="FitTrack" FontSize="70" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center" />
+                <TextBlock Text="FitTrack" FontSize="70" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center" Foreground="Crimson"/>
 
                 <TextBlock Text="Username" Margin="0,0,0,5"/>
                 <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" 

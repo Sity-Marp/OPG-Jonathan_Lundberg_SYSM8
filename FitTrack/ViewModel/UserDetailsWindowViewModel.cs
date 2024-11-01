@@ -16,7 +16,10 @@ namespace FitTrack.ViewModel
     public class UserDetailsWindowViewModel : ViewModelBase
     {
 
-        private IWindowService _windowService;
+        private readonly IWindowService _windowService;
+
+        public User CurrentUser { get; private set; }
+        //private IWindowService _windowService;
         //fields
 
         private ObservableCollection<string> _countries;
@@ -78,14 +81,23 @@ namespace FitTrack.ViewModel
             }
         }
         public ICommand EditUserCommand { get; }
-        public UserDetailsWindowViewModel(IWindowService windowService)
+        public UserDetailsWindowViewModel(IWindowService windowService, User currentUser)
         {
             _windowService = windowService;
+            CurrentUser = currentUser;
             LoadCountries();
             EditUserCommand = new RelayCommand(param => EditUser());
+            LoadUserDetails();
         }
 
+        private void LoadUserDetails()
+        {
+            // Example of loading user details into properties // thx GPT for showing me this.
+            Username = CurrentUser.Username;
+            SelectedCountry = CurrentUser.Country; 
+        }
 
+        // checks for when editting existting user
         private void EditUser()
         {
             if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password) || string.IsNullOrWhiteSpace(ConfirmPassword) || string.IsNullOrWhiteSpace(SelectedCountry))
@@ -97,6 +109,18 @@ namespace FitTrack.ViewModel
             if (Password != ConfirmPassword)
             {
                 MessageBox.Show("Passwords do not match.", "Validation Error", MessageBoxButton.OK);
+                return;
+            }
+
+            if (Password.Length < 5)
+            {
+                MessageBox.Show("Password too short.", "Validation Error", MessageBoxButton.OK);
+                return;
+            }
+
+            if (Username.Length <= 3)
+            {
+                MessageBox.Show("Username must be more than 3 characters.", "Validation Error", MessageBoxButton.OK);
                 return;
             }
 

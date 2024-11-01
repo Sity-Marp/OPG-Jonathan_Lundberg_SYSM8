@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FitTrack.Model
-{
+{//should be deleted and burnt.
     public class WorkoutManager
     {
         private static WorkoutManager _instance;

@@ -22,6 +22,7 @@ namespace FitTrack.ViewModel
         public ICommand OpenAddWorkoutWindowCommand { get; set; }
         public ICommand OpenWorkoutDetailsWindowCommand { get; set; }
         public ICommand RemoveWorkoutCommand { get; set; }
+        public ICommand OpenInfoButton { get; set; }
 
         private Workout newWorkout;
         public Workout NewWorkout
@@ -57,15 +58,21 @@ namespace FitTrack.ViewModel
             _windowService = windowService;
             CurrentUser = User.CurrentUser;
 
-            // Initialize the user's workout collection
-            UserWorkouts = new ObservableCollection<Workout>(_workoutManager.GetWorkoutsForUser(CurrentUser.Username));
 
-            // User user test workouts.
-            if (User.CurrentUser?.Username == "user")
+
+            //Load all workouts
+            if (CurrentUser is Admin admin)
             {
-                UserWorkouts.Add(new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test strength workout"));
-                UserWorkouts.Add(new CardioWorkout(10, "Cardio", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test cardio workout"));
+                UserWorkouts = new ObservableCollection<Workout>(UserManager.Instance.GetAllWorkouts());
             }
+            else
+            {
+                // If the user is not an admin, load their specific workouts
+                UserWorkouts = UserManager.Instance.GetUserWorkouts(CurrentUser.Username);
+                
+            }
+
+
 
             // Commands for various buttons in the UI
             OpenUserDetailsWindowCommand = new RelayCommand(param => OpenUserDetailsWindow());
@@ -73,34 +80,34 @@ namespace FitTrack.ViewModel
             OpenAddWorkoutWindowCommand = new RelayCommand(param => OpenAddWorkoutWindow());
             OpenWorkoutDetailsWindowCommand = new RelayCommand(param => OpenWorkoutDetailsWindow());
             RemoveWorkoutCommand = new RelayCommand(param => RemoveSelectedWorkout());
+            OpenInfoButton = new RelayCommand(param => InfoButton());
         }
 
         private void OpenUserDetailsWindow()
         {
-            var CurrentUser = User.CurrentUser;
-            _windowService.OpenWindow<UserDetailsWindow>();
+            var currentUser = User.CurrentUser;
+            var userDetailsWindow = new UserDetailsWindow(new UserDetailsWindowViewModel(_windowService, currentUser));
+            userDetailsWindow.Show();
         }
 
         private void SignOutUser()
         {
             _windowService.OpenAndCloseWindow<MainWindow>();
+
+        }
+        private void InfoButton()
+        {
+            MessageBox.Show("this is text about FitTrack and how you use the application. I hope this is all the information you need.", "info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void OpenAddWorkoutWindow()
         {
-            // TEMP using the AddWorkoutWindow to create a new workout
-
-            //var newWorkout = new StrengthWorkout(10, "Strength", DateTime.Now, TimeSpan.FromMinutes(30), 200, "Test workout");
-
-            //// Add the workout to the WorkoutManager and to UserWorkouts for display
-            //_workoutManager.AddWorkout(newWorkout);
-            //UserWorkouts.Add(newWorkout);
             var addWorkoutWindow = new AddWorkoutWindow();
             var addWorkoutWindowViewModel = new AddWorkoutWindowViewModel(_windowService, UserWorkouts);
             addWorkoutWindow.DataContext = addWorkoutWindowViewModel;
 
             addWorkoutWindow.ShowDialog();
-            //_windowService.OpenWindow<AddWorkoutWindow>();
+
         }
 
         private void OpenWorkoutDetailsWindow()
