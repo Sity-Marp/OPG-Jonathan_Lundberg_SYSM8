@@ -141,11 +141,33 @@ namespace FitTrack.ViewModel
 
         private void RemoveSelectedWorkout()
         {
-
             if (SelectedWorkout != null)
             {
-                _workoutManager.RemoveWorkout(SelectedWorkout);
-                UserWorkouts.Remove(SelectedWorkout);
+                if (CurrentUser is Admin)
+                {
+                    // iterates over all users to find which user's workout to remove
+                    foreach (var user in UserManager.Instance.GetUsers())
+                    {
+                        var userWorkouts = UserManager.Instance.GetUserWorkouts(user.Username);
+                        if (userWorkouts.Contains(SelectedWorkout))
+                        {
+                            UserManager.Instance.RemoveWorkout(user.Username, SelectedWorkout);
+                            UserWorkouts.Remove(SelectedWorkout);
+                            break;
+
+                        }
+                    }
+                }
+                else
+                {
+                    // for users removes the workout from their list
+                    _workoutManager.RemoveWorkout(SelectedWorkout);
+                    UserWorkouts.Remove(SelectedWorkout);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a workout first.");
             }
         }
     }
