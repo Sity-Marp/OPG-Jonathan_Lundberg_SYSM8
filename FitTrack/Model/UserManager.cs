@@ -98,6 +98,13 @@ namespace FitTrack.Model
             var existingUser = _users.FirstOrDefault(u => u.Username == updatedUser.Username);
             if (existingUser != null)
             {
+                // Check if the username has changed
+                if (existingUser.Username != updatedUser.Username)
+                {
+                    // Call RenameUser to handle the transfer of workouts
+                    RenameUser(existingUser.Username, updatedUser.Username);
+                }
+
                 existingUser.Password = updatedUser.Password;
                 existingUser.Country = updatedUser.Country;
                 MessageBox.Show("User information updated successfully.", "Success", MessageBoxButton.OK);
@@ -105,6 +112,23 @@ namespace FitTrack.Model
             else
             {
                 MessageBox.Show("User not found.", "Error", MessageBoxButton.OK);
+            }
+        }
+
+        // Move workouts from the old username to the new one, updates username. deletes old user 
+        public void RenameUser(string oldUsername, string newUsername)
+        {
+            if (_userWorkouts.ContainsKey(oldUsername))
+            {
+                
+                _userWorkouts[newUsername] = _userWorkouts[oldUsername];
+                _userWorkouts.Remove(oldUsername);
+            }
+
+            var user = _users.FirstOrDefault(u => u.Username == oldUsername);
+            if (user != null)
+            {
+                user.Username = newUsername;
             }
         }
 

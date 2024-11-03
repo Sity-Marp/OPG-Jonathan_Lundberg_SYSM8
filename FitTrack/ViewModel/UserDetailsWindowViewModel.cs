@@ -133,18 +133,35 @@ namespace FitTrack.ViewModel
                 return;
             }
 
-            if (Username != currentUser.Username && userManager.IsUsernameTaken(Username))
+            // check if the username is changing
+            if (Username != currentUser.Username)
             {
-                MessageBox.Show("Username is already taken.", "Validation Error", MessageBoxButton.OK);
-                return;
-            }
+                // ensure the new username is unique
+                if (userManager.IsUsernameTaken(Username))
+                {
+                    MessageBox.Show("Username is already taken.", "Validation Error", MessageBoxButton.OK);
+                    return;
+                }
 
-            currentUser.Username = Username;
+                // Renames the user and transfer workouts
+                userManager.RenameUser(currentUser.Username, Username);
+            
+
+            // Update user properties
+            currentUser.Password = Password;
+            currentUser.Country = SelectedCountry;
+
+            // Update the user in the UserManager (if necessary)
+            userManager.UpdateUser(currentUser);
+
+        }
+
+        currentUser.Username = Username;
             currentUser.Password = Password;
             currentUser.Country = SelectedCountry;
 
             userManager.UpdateUser(currentUser);
-            _windowService.OpenAndCloseWindow<WorkoutsWindow>();
+            _windowService.CloseWindow();
         }
 
 

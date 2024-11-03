@@ -58,8 +58,6 @@ namespace FitTrack.ViewModel
             _windowService = windowService;
             CurrentUser = User.CurrentUser;
 
-
-
             //Load all workouts
             if (CurrentUser is Admin admin)
             {
@@ -71,8 +69,6 @@ namespace FitTrack.ViewModel
                 UserWorkouts = UserManager.Instance.GetUserWorkouts(CurrentUser.Username);
                 
             }
-
-
 
             // Commands for various buttons in the UI
             OpenUserDetailsWindowCommand = new RelayCommand(param => OpenUserDetailsWindow());
