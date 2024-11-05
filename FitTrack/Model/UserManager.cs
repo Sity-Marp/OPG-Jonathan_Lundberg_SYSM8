@@ -47,6 +47,7 @@ namespace FitTrack.Model
             }
 
             _userWorkouts[username] = workouts; // Store the workouts for the user
+
         }
 
         // Get workouts for the specified user

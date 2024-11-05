@@ -154,23 +154,35 @@ namespace FitTrack.ViewModel
         {
             if (SelectedWorkout != null)
             {
-                if (CurrentUser is Admin)
+                if (CurrentUser is Admin admin)
                 {
-                    var adminUsername = CurrentUser.Username;
-                    _workoutManager.RemoveWorkout(SelectedWorkout);
-                    UserWorkouts.Remove(SelectedWorkout);
-
-                    // Update the AdminWorkouts if the admin is removing their own workout
-                    if (AdminWorkouts.Contains(SelectedWorkout))
+                    // Iterate over all users to find which user's workout to remove
+                    foreach (var user in UserManager.Instance.GetUsers())
                     {
-                        AdminWorkouts.Remove(SelectedWorkout);
+                        var userWorkouts = UserManager.Instance.GetUserWorkouts(user.Username);
+                        if (userWorkouts.Contains(SelectedWorkout))
+                        {
+                            UserManager.Instance.RemoveWorkout(user.Username, SelectedWorkout);
+                            UserWorkouts.Remove(SelectedWorkout); 
+                            break;
+                        }
+                    }
+                    //remove admin's workout
+                    if (UserWorkouts.Contains(SelectedWorkout))
+                    {
+                        UserWorkouts.Remove(SelectedWorkout); 
                     }
                 }
                 else
                 {
+                    // for users removes the workout from their list
                     _workoutManager.RemoveWorkout(SelectedWorkout);
                     UserWorkouts.Remove(SelectedWorkout);
                 }
+            }
+            else
+            {
+                MessageBox.Show("Please select a workout first.");
             }
         }
     }
