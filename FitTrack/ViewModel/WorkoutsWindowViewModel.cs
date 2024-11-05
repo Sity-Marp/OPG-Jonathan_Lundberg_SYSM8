@@ -45,6 +45,17 @@ namespace FitTrack.ViewModel
             }
         }
 
+        private ObservableCollection<Workout> adminWorkouts;
+        public ObservableCollection<Workout> AdminWorkouts
+        {
+            get => adminWorkouts;
+            set
+            {
+                adminWorkouts = value;
+                OnPropertyChanged();
+            }
+        }
+
         // Collection of workouts specifically for the current user
         public ObservableCollection<Workout> UserWorkouts { get; set; }
 
@@ -61,7 +72,9 @@ namespace FitTrack.ViewModel
             //Load all workouts
             if (CurrentUser is Admin admin)
             {
+                AdminWorkouts = UserManager.Instance.GetAdminWorkouts(admin.Username);
                 UserWorkouts = new ObservableCollection<Workout>(UserManager.Instance.GetAllWorkouts());
+
             }
             else
             {
@@ -78,6 +91,8 @@ namespace FitTrack.ViewModel
             RemoveWorkoutCommand = new RelayCommand(param => RemoveSelectedWorkout());
             OpenInfoButton = new RelayCommand(param => InfoButton());
         }
+
+
 
         private void OpenUserDetailsWindow()
         {
@@ -141,29 +156,21 @@ namespace FitTrack.ViewModel
             {
                 if (CurrentUser is Admin)
                 {
-                    // iterates over all users to find which user's workout to remove
-                    foreach (var user in UserManager.Instance.GetUsers())
-                    {
-                        var userWorkouts = UserManager.Instance.GetUserWorkouts(user.Username);
-                        if (userWorkouts.Contains(SelectedWorkout))
-                        {
-                            UserManager.Instance.RemoveWorkout(user.Username, SelectedWorkout);
-                            UserWorkouts.Remove(SelectedWorkout);
-                            break;
+                    var adminUsername = CurrentUser.Username;
+                    _workoutManager.RemoveWorkout(SelectedWorkout);
+                    UserWorkouts.Remove(SelectedWorkout);
 
-                        }
+                    // Update the AdminWorkouts if the admin is removing their own workout
+                    if (AdminWorkouts.Contains(SelectedWorkout))
+                    {
+                        AdminWorkouts.Remove(SelectedWorkout);
                     }
                 }
                 else
                 {
-                    // for users removes the workout from their list
                     _workoutManager.RemoveWorkout(SelectedWorkout);
                     UserWorkouts.Remove(SelectedWorkout);
                 }
-            }
-            else
-            {
-                MessageBox.Show("Please select a workout first.");
             }
         }
     }

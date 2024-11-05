@@ -56,7 +56,23 @@ namespace FitTrack.Model
         }
 
         // Get all workouts (Admin functionality)
-        public IEnumerable<Workout> GetAllWorkouts() => _userWorkouts.SelectMany(uw => uw.Value);
+        public ObservableCollection<Workout> GetAllWorkouts()
+        {
+            var allWorkouts = new ObservableCollection<Workout>();
+            foreach (var workouts in _userWorkouts.Values)
+            {
+                foreach (var workout in workouts)
+                {
+                    allWorkouts.Add(workout);
+                }
+            }
+            return allWorkouts;
+        }
+        //admin workouts
+        public ObservableCollection<Workout> GetAdminWorkouts(string adminUsername)
+        {
+            return GetUserWorkouts(adminUsername);
+        }
 
         // Public static property to provide global access to the instance
         public static UserManager Instance
